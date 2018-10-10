@@ -1,6 +1,7 @@
 package com.example.savaque.redcapkingdom;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     }
     class GameView extends SurfaceView implements Runnable {
 
+        int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().heightPixels;
+        int SCREEN_HEIGHT= Resources.getSystem().getDisplayMetrics().widthPixels;
 
         // Our Thread
         Thread gameThread = null;
@@ -80,26 +83,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
 
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            gui.handleTouch(motionEvent);
 
-
-                // Player has removed finger from screen
-                case MotionEvent.ACTION_DOWN:
-
-                    xPosition = motionEvent.getX();
-                    yPosition = motionEvent.getY();
-                    player.setDestination(xPosition,yPosition);
-                    gui.active=true;
-                    gui.setJoystickLoc(xPosition,yPosition);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    xPosition = motionEvent.getX();
-                    yPosition = motionEvent.getY();
-                    gui.setJoystickInput(xPosition,yPosition);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    gui.deactivate();
-            }
             return true;
         }
         public void draw() {
@@ -126,9 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 //paint.setColor(Color.argb(0,0,0,0));
 
                 //Lastly paint the GUI over everything
-                if (gui.active){
                     gui.drawGUI(paint,canvas);
-                }
+
                 ourHolder.unlockCanvasAndPost(canvas);
             }
         }

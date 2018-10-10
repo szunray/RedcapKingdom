@@ -1,5 +1,7 @@
 package com.example.savaque.redcapkingdom;
 
+import android.content.res.Resources;
+
 /**
  * Created by Savaque on 10/2/2018.
  */
@@ -9,13 +11,19 @@ public class Player {
     public float destination[] = new float [2];
     public int fps;
 
+    // Just to spawn the player in the center of the screen for testing.
+    int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
+    int SCREEN_HEIGHT= Resources.getSystem().getDisplayMetrics().heightPixels;
+
     public float speed;
 
     public Player(int fpsValue){
-        location[0]=0;
-        location[1]=0;
-        destination[0]=0;
-        destination[1]=0;
+        // The phone is sideways yo
+        location[0]=SCREEN_WIDTH/2;
+        location[1]=SCREEN_HEIGHT/2;
+
+        destination[0]=location[0];
+        destination[1]=location[1];
         fps = fpsValue;
 
         speed = 400;
