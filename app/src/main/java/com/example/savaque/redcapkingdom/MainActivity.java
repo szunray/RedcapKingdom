@@ -19,10 +19,12 @@ import android.view.WindowManager;
 public class MainActivity extends Activity {
 
     GameView gameView;
+    Level level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        level = new Level(this);
 
         // Hide the status bar and navigation bar.
         View decorView = getWindow().getDecorView();
@@ -117,6 +119,8 @@ public class MainActivity extends Activity {
 
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255, 249, 129, 0));
+
+level.draw(canvas);
 
                 canvas.drawCircle(player.location[0], player.location[1], 100, paint);
                 //paint.setColor(Color.argb(0,0,0,0));
