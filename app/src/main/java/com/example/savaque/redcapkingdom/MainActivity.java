@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 public class MainActivity extends AppCompatActivity {
 
     GameView gameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
         // Initialize gameView and set it as the view
         gameView = new GameView(this);
         setContentView(gameView);
-
-
     }
 
     // This method executes when the player starts the game
@@ -43,16 +42,17 @@ public class MainActivity extends AppCompatActivity {
         // Tell the gameView pause method to execute
         gameView.pause();
     }
+
     class GameView extends SurfaceView implements Runnable {
 
         int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().heightPixels;
-        int SCREEN_HEIGHT= Resources.getSystem().getDisplayMetrics().widthPixels;
+        int SCREEN_HEIGHT = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         // Our Thread
         Thread gameThread = null;
 
         // Our GUI
-        GUI gui= new GUI();
+        GUI gui = new GUI();
 
         //Will be used with Paint and Canvas
         SurfaceHolder ourHolder;
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
         Canvas canvas;
         Paint paint;
 
-        float xPosition=0;
-        float yPosition=0;
+        float xPosition = 0;
+        float yPosition = 0;
 
         //Tracks the game's Framerate
-        int fps =30;
+        int fps = 30;
 
         Player player = new Player(fps);
-        Tile wall = new Tile(900,500);
+        Tile wall = new Tile(900, 500);
 
         public GameView(Context context) {
             super(context);
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             paint = new Paint();
 
         }
+
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
+
         public void draw() {
 
 
@@ -100,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 canvas = ourHolder.lockCanvas();
 
 
-
                 // Draw the background color
                 canvas.drawColor(Color.argb(255, 26, 128, 182));
 
@@ -111,17 +112,16 @@ public class MainActivity extends AppCompatActivity {
                 //paint.setColor(Color.argb(0,0,0,0));
 
                 //Lastly paint the GUI over everything
-                    gui.drawGUI(paint,canvas);
+                gui.drawGUI(paint, canvas);
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
         }
 
 
-
         public void run() {
             while (playing) {
-                player.move(gui.joystickLoc,gui.joystickInput);
+                player.move(gui.joystickLoc, gui.joystickInput);
                 draw();
             }
         }
