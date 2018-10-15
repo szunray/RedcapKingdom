@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255, 249, 129, 0));
 
-level.draw(canvas);
+level.draw(canvas,paint);
 
                 canvas.drawCircle(player.location[0], player.location[1], 100, paint);
                 //paint.setColor(Color.argb(0,0,0,0));
