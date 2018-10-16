@@ -72,6 +72,9 @@ public class MainActivity extends Activity {
         //Is the game playing?
         volatile boolean playing;
 
+        //calculate FPS
+        long fpsTest=0;
+        long timeThisFrame=1;
         //Canvas and Paint objects
         Canvas canvas;
         Paint paint;
@@ -127,7 +130,9 @@ level.draw(canvas,paint);
 
                 //Lastly paint the GUI over everything
                 gui.drawGUI(paint, canvas);
-
+// Display the current fps on the screen
+                paint.setTextSize(45);
+                canvas.drawText("FPS:" + fpsTest, 20, 40, paint);
                 ourHolder.unlockCanvasAndPost(canvas);
             }
         }
@@ -135,8 +140,16 @@ level.draw(canvas,paint);
 
         public void run() {
             while (playing) {
+                //capture the current time in milliseconds
+                long startFrameTime = System.currentTimeMillis();
+
                 player.move(gui.joystickLoc, gui.joystickInput);
                 draw();
+                timeThisFrame = System.currentTimeMillis()-startFrameTime;
+                if(timeThisFrame>0){
+                    fpsTest = (int)(1000 / timeThisFrame);
+                }
+
             }
         }
 
