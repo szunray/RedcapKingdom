@@ -41,8 +41,37 @@ public class Level {
                 {new Tile(tile), null, null, null, null},
                 {new Tile(tile), null, null, null, null},
                 {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, new Tile(tile), null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), new Tile(tile), null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, new Tile(tile), null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), new Tile(tile), null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, new Tile(tile), null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), new Tile(tile), null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
         };
-
     }
 
     public void update(float time) {
@@ -52,15 +81,17 @@ public class Level {
     public void draw(Canvas canvas, Paint paint) {
 
         canvas.drawBitmap(background,
-                (float) (0),
-                (float) (0),
+                (float) (0.05 * World.offset[0]),
+                (float) (0.05 * World.offset[1]),
                 paint);
 
         for (int x = 0; x < tileMap.length; x++) {
             for (int y = 0; y < tileMap[x].length; y++) {
                 if (tileMap[x][y] != null) {
                     canvas.save();
-                    canvas.translate(x * Tile.StandardSize, SCREEN_WIDTH - (y + 1) * Tile.StandardSize);
+                    canvas.translate(
+                            World.offset[0] + x * Tile.StandardSize,
+                            World.offset[1] + SCREEN_WIDTH - (y + 1) * Tile.StandardSize);
                     canvas.drawBitmap(tileMap[x][y].image,
                             (float) (0),
                             (float) (0),

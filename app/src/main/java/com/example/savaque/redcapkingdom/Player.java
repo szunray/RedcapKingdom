@@ -11,6 +11,9 @@ import android.graphics.drawable.Drawable;
  */
 
 public class Player {
+    int half_SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().heightPixels / 2;
+    int half_SCREEN_HEIGHT = Resources.getSystem().getDisplayMetrics().widthPixels / 2;
+
     public float[] size = new float[]{100, 100};
     public float[] scale = new float[]{4, 4};
 
@@ -19,8 +22,8 @@ public class Player {
     public float acceleration[] = new float[2];
     public float joystick[];
 
-    public float maxAccel = 0.003f;
-    public float maxSpeed = 2.0f;
+    public float maxAccel = 0.002f;
+    public float maxSpeed = 1.8f;
     public float friction = maxAccel / 2.0f;
 
     private Drawable sprite;
@@ -55,8 +58,8 @@ public class Player {
 
         // If you aren't moving the joystick, set the acceleration to some small value
         // in the opposite direction of movement, so the player slowly slows down.
-        if (acceleration[0] == 0 ) {
-            if (friction * time > Math.abs(velocity[0])){
+        if (acceleration[0] == 0) {
+            if (friction * time > Math.abs(velocity[0])) {
                 velocity[0] = 0;
             } else {
                 if (velocity[0] > friction) {
@@ -86,12 +89,14 @@ public class Player {
 
         // Position = (the change in time) * velocity
         location[0] += velocity[0] * time;
+        World.offset[0] = -location[0] + half_SCREEN_HEIGHT + 200 * velocity[0];
         location[1] += velocity[1] * time;
+        World.offset[1] = -location[1] + half_SCREEN_WIDTH + 200 * velocity[1];
     }
 
     public void draw(Canvas canvas, Paint paint) {
         canvas.save();
-        canvas.translate(location[0], location[1]);
+        canvas.translate(World.offset[0] + location[0], World.offset[1] + location[1]);
         sprite.draw(canvas);
         canvas.restore();
     }

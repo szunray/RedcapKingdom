@@ -50,7 +50,7 @@ public class GUI {
         active = false;
     }
 
-    public void drawGUI(Paint paint, Canvas canvas) {
+    public void draw(Canvas canvas, Paint paint) {
         canvas.drawCircle(screenWidth - 200, screenHeight / 2, 100, paint);
         canvas.drawCircle(screenWidth - 400, screenHeight / 2 + 200, 100, paint);
         if (active) {

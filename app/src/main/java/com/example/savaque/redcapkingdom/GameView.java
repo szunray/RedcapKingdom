@@ -55,7 +55,7 @@ public class GameView extends SurfaceView implements Runnable {
         level = world.loadLevel();
 
         // Create a playerCamera for panning across the level
-        playerCamera = new Camera(joystick);
+        playerCamera = new Camera(joystick, player);
 
         previousMillis = System.currentTimeMillis();
         currentMillis = System.currentTimeMillis();
@@ -71,6 +71,7 @@ public class GameView extends SurfaceView implements Runnable {
         currentMillis = System.currentTimeMillis();
         frameTime = currentMillis - previousMillis;
         world.update(frameTime);
+        playerCamera.update(frameTime);
     }
 
     public void draw() {
@@ -91,7 +92,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Shift the camera so we're looking at the player location in the level.
             playerCamera.draw(canvas, paint);
-            
+
             // Display the current fps on the screen
             paint.setTextSize(45);
             canvas.drawText("FPS:" + fpsTest, 20, 40, paint);
