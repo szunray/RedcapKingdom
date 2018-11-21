@@ -1,5 +1,8 @@
 package com.example.savaque.redcapkingdom;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 /**
  * Created by Savaque on 10/2/2018.
  */
@@ -9,6 +12,16 @@ public class Tile {
     float width;
     float height;
     float left, right, top, bottom;
+
+    Bitmap image;
+
+    public static final float StandardSize = 250;
+
+    public Tile(Bitmap b){
+        image = b;
+        width = 250;
+        height = 250;
+    }
 
     public Tile(float x, float y) {
         location = new float[2];

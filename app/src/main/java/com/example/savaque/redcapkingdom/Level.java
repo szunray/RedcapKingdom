@@ -14,103 +14,61 @@ import java.util.Random;
 
 // Hard code ALLTHETHINGS
 public class Level {
+    int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().heightPixels;
+    int SCREEN_HEIGHT = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-    private List<Material> groundTiles;
-    private Material[][] tileMap;
-    private int[][]testMap;
-    private Drawable background;
+    Tile[][] tileMap;
     Bitmap test;
-    private Context contextReference;
+
+    Bitmap background;
+
+
     public Level(Context context) {
-        contextReference=context;
-        test = BitmapFactory.decodeResource(contextReference.getResources(), R.drawable.ground01);
-        /*
-        groundTiles = new ArrayList<>();
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground01)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground02)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground03)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground04)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground05)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground06)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground07)));
-        groundTiles.add(new Material(context.getResources().getDrawable(R.drawable.ground08)));
+        Bitmap temp = BitmapFactory.decodeResource(context.getResources(), R.drawable.glacial_mountains);
+        background = Bitmap.createScaledBitmap(temp, 5000, 2500, true);
 
-        tileMap = new Material[][]{
-                {randomGroundTile(), null, null, null, null, null},
-                {randomGroundTile(), null, null, randomGroundTile(), null, null},
-                {randomGroundTile(), null, null, null, null, null},
-                {randomGroundTile(), null, null, null, null, null},
-                {randomGroundTile(), randomGroundTile(), null, null, null, null},
-                {null, null, null, null, randomGroundTile(), null},
-                {null, null, null, null, randomGroundTile(), null},
-                {randomGroundTile(), null, null, null, null, null},
-                {randomGroundTile(), null, null, randomGroundTile(), null, null},
-                {randomGroundTile(), null, null, null, null, null},
-                {randomGroundTile(), null, null, null, randomGroundTile(), null},
-                {randomGroundTile(), randomGroundTile(), null, null, null, null},
-                {null, null, null, null, randomGroundTile(), null},
-                {null, null, null, null, randomGroundTile(), null},
-        };*/
+        temp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ground01);
+        Bitmap tile = Bitmap.createScaledBitmap(temp, 250, 250, true);
 
-        testMap = new int[][]{
-                {1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 1, 0, 0},
-                {1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0},
-                {1, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 1, 0},
-                {1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 1, 0, 0},
-                {1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 1, 0},
-                {1, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 1, 0},};
-        background = context.getResources().getDrawable(R.drawable.glacial_mountains);
-        background.setBounds(0, 0, 384*6, 216*6);
+        tileMap = new Tile[][]{
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, new Tile(tile), null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), new Tile(tile), null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+                {new Tile(tile), null, null, null, null},
+        };
+
+    }
+
+    public void update(float time) {
 
     }
 
     public void draw(Canvas canvas, Paint paint) {
 
-        int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().heightPixels;
-        int SCREEN_HEIGHT = Resources.getSystem().getDisplayMetrics().widthPixels;
+        canvas.drawBitmap(background,
+                (float) (0),
+                (float) (0),
+                paint);
 
+        for (int x = 0; x < tileMap.length; x++) {
+            for (int y = 0; y < tileMap[x].length; y++) {
+                if (tileMap[x][y] != null) {
+                    canvas.save();
+                    canvas.translate(x * Tile.StandardSize, SCREEN_WIDTH - (y + 1) * Tile.StandardSize);
+                    canvas.drawBitmap(tileMap[x][y].image,
+                            (float) (0),
+                            (float) (0),
+                            paint);
+                    canvas.restore();
 
-        background.draw(canvas);
-        double xScale = 200.0;
-        double yScale = 200.0;
-        for (int i = 0; i < testMap.length; i++) {
-            for (int j = 0; j < testMap[i].length; j++) {
-                if (testMap[i][j] != 0) {
-
-                   /* tileMap[i][j].drawable.setBounds((int)(i*xScale), SCREEN_WIDTH -(int)yScale - (int)(j*yScale), (int)((i+1)*xScale), SCREEN_WIDTH -(int)yScale -(int)((j-1)*yScale));
-                    tileMap[i][j].drawable.draw(canvas);//*/
-
-                   /* Drawable pen = groundTiles.get(new Random().nextInt(groundTiles.size())).drawable; ;
-                    pen.setBounds((int)(i*xScale), SCREEN_WIDTH -(int)yScale - (int)(j*yScale), (int)((i+1)*xScale), SCREEN_WIDTH -(int)yScale -(int)((j-1)*yScale));
-                    pen.draw(canvas);//*/
-
-
-                    canvas.drawBitmap(test,(float)(i*xScale),(float)(SCREEN_WIDTH -yScale - (j*yScale)),paint);//*/
                 }
-
             }
         }
-    }
-
-    private Material randomGroundTile() {
-        return groundTiles.get(new Random().nextInt(groundTiles.size()));
-    }
-
-    public class Material {
-        Drawable drawable;
-
-        public Material(Drawable d) {
-            this.drawable = d;
-        }
-        // Holds the information about a given material.
-        // These are interactable and on the same plane as the player.
     }
 }

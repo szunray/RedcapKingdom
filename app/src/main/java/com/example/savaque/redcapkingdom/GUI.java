@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -11,19 +12,21 @@ import android.view.MotionEvent;
  */
 
 public class GUI {
+    float[] joystick;
     float[] joystickLoc = new float[2];
     float[] joystickInput = new float[2];
     int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    ;
     boolean active;
 
-    public GUI() {
+    public GUI(float[] joystick) {
         joystickLoc[0] = 0;
         joystickLoc[1] = 0;
         joystickInput[0] = 0;
         joystickInput[1] = 0;
         active = true;
+
+        this.joystick = joystick;
     }
 
     public void setJoystickLoc(float x, float y) {
@@ -34,11 +37,16 @@ public class GUI {
     public void setJoystickInput(float x, float y) {
         joystickInput[0] = x;
         joystickInput[1] = y;
+
+        joystick[0] = joystickInput[0] - joystickLoc[0];
+        joystick[1] = joystickInput[1] - joystickLoc[1];
     }
 
     public void deactivate() {
         joystickInput[0] = joystickLoc[0];
         joystickInput[1] = joystickLoc[1];
+        joystick[0] = 0;
+        joystick[1] = 0;
         active = false;
     }
 
@@ -60,20 +68,22 @@ public class GUI {
         float xPosition = motionEvent.getX();
         float yPosition = motionEvent.getY();
 
-        if (inRadius(xPosition, yPosition, screenWidth - 200, screenHeight / 2, 200)) {
-            return;
-        } else {
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                    active = true;
-                    setJoystickLoc(xPosition, yPosition);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    setJoystickInput(xPosition, yPosition);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    deactivate();
-            }
+        Log.i("asdf", "" + MotionEvent.actionToString(motionEvent.getAction()));
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                active = true;
+                setJoystickLoc(xPosition, yPosition);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                setJoystickInput(xPosition, yPosition);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                deactivate();
+                break;
+            default:
+                Log.i("asdf", MotionEvent.actionToString(motionEvent.getAction()));
+                break;
         }
     }
 
