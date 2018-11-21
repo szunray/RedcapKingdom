@@ -68,7 +68,6 @@ public class GUI {
         float xPosition = motionEvent.getX();
         float yPosition = motionEvent.getY();
 
-        Log.i("asdf", "" + MotionEvent.actionToString(motionEvent.getAction()));
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 active = true;
@@ -82,7 +81,6 @@ public class GUI {
                 deactivate();
                 break;
             default:
-                Log.i("asdf", MotionEvent.actionToString(motionEvent.getAction()));
                 break;
         }
     }
